@@ -24,7 +24,7 @@ export default async function Home() {
                 />
                 <div id="welcome-section">
                     <p className="p-2 text-base max-w-prose">
-                        Welcome to Hunt Gather Trade! My name is Larry, and I am a freelance developer and the author of the Hunt Gather Trade Substack newsletter. This platform is my passion project, born from a fascination with automated trading systems and day trading. Here, I dedicate myself to sharing knowledge, experiences, and monthly strategies with a community that's as eager to learn.
+                        Welcome to Hunt Gather Trade! My name is Larry, and I am a freelance developer and the author of the Hunt Gather Trade Substack newsletter. This platform is my passion project, born from a fascination with automated trading systems and day trading. Here, I dedicate myself to sharing knowledge, experiences, and monthly strategies with a community that's eager to learn.
                     </p>
                     <p className="p-2 text-base max-w-prose">
                         Every month, I dive into the complexities of automated trading systems, offering you insights and research that are both accessible and designed to help you with your daily trading. Whether your interest lies in understanding the algorithms that fuel trading bots or honing your manual trading techniques, my newsletter is tailored to equip you with practical knowledge and researched strategies.
