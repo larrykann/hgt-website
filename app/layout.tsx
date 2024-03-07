@@ -7,16 +7,17 @@ import Footer from "./_components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Hunt Gather Trade",
-  description: "Created by developer and writer Larry Kann",
+    title: "Hunt Gather Trade",
+    description: "Created by developer and writer Larry Kann",
+    keywords: ['Day Trading', 'Trading', 'Trade Research', 'Automated Trade Systems'],
 };
 
 export default function RootLayout({
-  children,
+    children,
 }: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
+        children: React.ReactNode;
+    }>) {
+    return (
         <html lang="en">
             <body className={inter.className}>
                 <Navbar />
@@ -24,5 +25,5 @@ export default function RootLayout({
                 <Footer />
             </body>
         </html>
-  );
+    );
 }
