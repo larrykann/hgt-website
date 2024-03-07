@@ -1,5 +1,5 @@
 import ImageKit from 'imagekit';
-import { ImageKitFile, ImageKitListFilesResponse } from '../_types/imageKitTypes'
+import { ImageKitListFilesResponse } from '../_types/imageKitTypes'
 
 // Helper function to assert that an environment variable is defined
 function getEnvVariable(key: string): string {
