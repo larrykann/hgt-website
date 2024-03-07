@@ -1,4 +1,4 @@
-interface ImageKitFile {
+export interface ImageKitFile {
   fileId: string;
   name: string;
 }

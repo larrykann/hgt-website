@@ -1,5 +1,5 @@
 import ImageKit from 'imagekit';
-import { ImageKitListFilesResponse } from '../_types/imageKitTypes'
+import { ImageKitFile } from '../_types/imageKitTypes'
 
 // Helper function to assert that an environment variable is defined
 function getEnvVariable(key: string): string {
@@ -17,51 +17,45 @@ const imagekit = new ImageKit({
 });
 
 export async function fetchImageNames(): Promise<string[]> {
-  let skip = 0;
-  const limit = 100; // Adjust based on the API's maximum limit per batch
-  let allImageNames: string[] = [];
+    let skip = 0;
+    const limit = 100; // Adjust based on the API's maximum limit per batch
+    let allImageNames: string[] = [];
 
-    const fetchBatch = () => new Promise<void>((resolve, reject) => {
-        imagekit.listFiles({
-            path: '/hgt_website/',
-            skip: skip,
-            limit: limit,
-        }, (error: Error | null, result: ImageKitListFilesResponse | null, response: any) => {
-                if (error) {
-                    if (response && response.status === 429) {
-                        // Too Many Requests, pause based on X-RateLimit-Reset header
-                        const rateLimitReset = response.headers ? response.headers['X-RateLimit-Reset'] : '1000'; // Time in milliseconds
-                        console.log(`Rate limit exceeded, pausing for ${rateLimitReset}ms`);
-                        setTimeout(() => {
-                            // Retry the request after the pause
-                            fetchBatch().then(resolve).catch(reject);
-                        }, parseInt(rateLimitReset));
-                    } else {
-                        console.error('Failed to fetch images:', error);
-                        reject(error);
-                    }
-                    return;
-                };
-
-                if (!result) {
-                    console.error('Result is null');
-                    resolve(); // Or reject, based on your error handling preference
-                    return;
-                }
-
-                const imageNames = result.map((file: { name: string }) => file.name);
-                allImageNames = allImageNames.concat(imageNames);
-
-                if (result.length < limit) {
-                    resolve(); // Finished fetching all images
-                } else {
-                    skip += limit;
-                    fetchBatch().then(resolve).catch(reject); // Fetch next batch
-                }
+    async function fetchBatch(): Promise<void> {
+        try {
+            const result = await imagekit.listFiles({
+                path: '/hgt_website/',
+                skip: skip,
+                limit: limit,
             });
-    });
 
-  await fetchBatch();
-  return allImageNames;
+            if (!result) {
+                console.error('Result is null');
+                return; // Ends the recursive fetching
+            }
+
+            const imageNames = result.map((file: ImageKitFile) => file.name);
+            allImageNames = [...allImageNames, ...imageNames];
+
+            if (result.length >= limit) {
+                skip += limit; // Prepare for the next batch
+                await fetchBatch(); // Recursively fetch next batch
+            }
+        } catch (error:any) {
+            if (error && error.response && error.response.status === 429) {
+                // Handle rate-limiting
+                const rateLimitReset = error.response.headers['X-RateLimit-Reset'] || '1000';
+                console.log(`Rate limit exceeded, pausing for ${rateLimitReset}ms`);
+                await new Promise((resolve) => setTimeout(resolve, parseInt(rateLimitReset)));
+                await fetchBatch(); // Retry fetching after waiting
+            } else {
+                console.error('Failed to fetch images:', error);
+                throw error; // Rethrow error to be caught by the caller
+            }
+        }
+    }
+
+    await fetchBatch();
+    return allImageNames;
 }
 
