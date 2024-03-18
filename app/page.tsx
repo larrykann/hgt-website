@@ -36,7 +36,7 @@ export default async function Home() {
 
             </div>
 
-            <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-3 lg:text-left">
+            <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
                 <Link
                     href="https://github.com/Hunt-Gather-Trade"
                     className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
@@ -87,6 +87,24 @@ export default async function Home() {
                         The Hunt Gather Trade newsletter lives in Substack. Check it out and sign up today.
                     </p>
                 </Link>
+
+                <Link
+                    href="https://trello.com/b/o71Tuxb3"
+                    className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <h2 className={`mb-3 text-2xl font-semibold`}>
+                        Roadmap{" "}
+                        <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
+                            -&gt;
+                        </span>
+                    </h2>
+                    <p className={`m-0 max-w-[30ch] text-sm opacity-50 text-balance`}>
+                        Check out the HGT project roadmap.
+                    </p>
+                </Link>
+
             </div>
         </main>
     );
